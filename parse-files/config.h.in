@@ -172,6 +172,10 @@ ${CMAKE_MRPT_BUILD_SHARED_LIB}
 #define MRPT_HAS_xSENS_MT3 ${CMAKE_MRPT_HAS_xSENS_MT3}
 #define MRPT_HAS_xSENS_MT4 ${CMAKE_MRPT_HAS_xSENS_MT4}
 
+/** Whether to include the VECTORNAV device interface: */
+#define MRPT_HAS_VECTORNAV ${CMAKE_MRPT_HAS_VECTORNAV}
+#define MRPT_VN100T_CONF_FILE "${PROJECT_SOURCE_DIR}/share/mrpt/config_files/rawlog-grabber/VN100T.ini"
+
 /** Whether to compile support for .gz compressed I/O streams: */
 #define MRPT_HAS_GZ_STREAMS ${CMAKE_MRPT_HAS_GZ_STREAMS}
 

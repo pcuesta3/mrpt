@@ -33,6 +33,28 @@ IF(CMAKE_MRPT_HAS_xSENS_MT4)
 		)
 ENDIF(CMAKE_MRPT_HAS_xSENS_MT4)
 
+# Build VECTORNAV?
+IF(CMAKE_MRPT_HAS_VECTORNAV)
+   LIST(APPEND hwdrivers_EXTRA_SRCS
+      "${MRPT_LIBS_ROOT}/hwdrivers/src/vectornav/*.c"
+      "${MRPT_LIBS_ROOT}/hwdrivers/src/vectornav/*.h"
+      )
+
+   LIST(APPEND hwdrivers_EXTRA_SRCS_NAME "VECTORNAV" "VECTORNAV")
+
+   IF(WIN32)
+      LIST(APPEND hwdrivers_EXTRA_SRCS
+         "${MRPT_LIBS_ROOT}/hwdrivers/src/vectornav/arch/win32/vncp_services.c"
+         )
+      LIST(APPEND hwdrivers_EXTRA_SRCS_NAME "VECTORNAV")
+   ELSEIF(UNIX)
+      LIST(APPEND hwdrivers_EXTRA_SRCS
+            "${MRPT_LIBS_ROOT}/hwdrivers/src/vectornav/arch/linux/vncp_services.c"
+            )
+      LIST(APPEND hwdrivers_EXTRA_SRCS_NAME "VECTORNAV")
+   ENDIF()
+ENDIF(CMAKE_MRPT_HAS_VECTORNAV)
+
 # Build Kinect support via libfreenect?
 IF(CMAKE_MRPT_HAS_FREENECT)
 	IF (CMAKE_MRPT_HAS_FREENECT_SYSTEM)
@@ -153,21 +175,21 @@ define_mrpt_lib(
 
 IF(BUILD_mrpt-hwdrivers) 
 	# Ignore precompiled headers in xSens sources:
-	IF(CMAKE_MRPT_HAS_xSENS_MT3 OR CMAKE_MRPT_HAS_xSENS_MT4)
+   IF(CMAKE_MRPT_HAS_xSENS_MT3 OR CMAKE_MRPT_HAS_xSENS_MT4 OR CMAKE_MRPT_HAS_VECTORNAV)
 		IF(MRPT_ENABLE_PRECOMPILED_HDRS AND MSVC)
-			set_source_files_properties(${xSens_MT3_FILES} ${xSens_MT4_FILES} PROPERTIES COMPILE_FLAGS "/Y-")
+         set_source_files_properties(${xSens_MT3_FILES} ${xSens_MT4_FILES} ${VECTORNAV_FILES} PROPERTIES COMPILE_FLAGS "/Y-")
 		ENDIF(MRPT_ENABLE_PRECOMPILED_HDRS AND MSVC)
 
 		# Avoid some annoying warnings:
 		IF (CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-			set_source_files_properties(${xSens_MT3_FILES} ${xSens_MT4_FILES} PROPERTIES COMPILE_FLAGS "-Wno-variadic-macros")
+         set_source_files_properties(${xSens_MT3_FILES} ${xSens_MT4_FILES} ${VECTORNAV_FILES} PROPERTIES COMPILE_FLAGS "-Wno-variadic-macros")
 			# -D_... = Needed to have CLOCK_REALTIME,... in gcc
 			# -fms-extensions: Unnamed structs in unions
-			set_source_files_properties(${xSens_MT4_FILES} PROPERTIES COMPILE_FLAGS "-D_POSIX_C_SOURCE=199309L -fms-extensions") 
+         set_source_files_properties(${xSens_MT4_FILES} ${VECTORNAV_FILES} PROPERTIES COMPILE_FLAGS "-D_POSIX_C_SOURCE=199309L -fms-extensions")
 		ENDIF ()
 
 		ADD_DEFINITIONS(-D_LOG_TO_STDOUT)
-	ENDIF(CMAKE_MRPT_HAS_xSENS_MT3 OR CMAKE_MRPT_HAS_xSENS_MT4)
+   ENDIF(CMAKE_MRPT_HAS_xSENS_MT3 OR CMAKE_MRPT_HAS_xSENS_MT4 OR CMAKE_MRPT_HAS_VECTORNAV)
 
 	IF(CMAKE_MRPT_HAS_OPENCV)
 		target_link_libraries(mrpt-hwdrivers ${OpenCV_LIBRARIES})
