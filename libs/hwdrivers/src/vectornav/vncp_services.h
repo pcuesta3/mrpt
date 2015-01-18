@@ -79,7 +79,7 @@
 			/* _Bool builtin type is included in GCC. */
 			/* ISO C Standard: 5.2.5 An object declared as type _Bool is large
 			 * enough to store the values 0 and 1. */
-			typedef int8_t _Bool;
+			typedef int8_t bool; //FIXED
 		#endif
 
 		/* ISO C Standard: 7.16 Boolean type */

@@ -29,8 +29,8 @@
  * This file supplies the cross-platform services when on a Windows machine.
  */
 #include <string.h>
-#include "vncp_services.h"
-#include "vn_errorCodes.h"
+#include "../../vncp_services.h"
+#include "../../vn_errorCodes.h"
 
 #define MAX_KEY_LENGTH			255
 #define MAX_PORT_NAME_LENGTH	30

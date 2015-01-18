@@ -151,9 +151,6 @@ void CIMUVN100T::doProcess()
             {
                vn100_disconnect(&vn100);
                m_isConnected = false;
-
-               delete[] &vn100;  m_vn100_ptr = NULL;
-               delete[] &ypr;    m_ypr_ptr = NULL;
             }
 
             std::cerr << "[CIMUVN100T::doProcess()] Error: No data available [VNERR_TIMEOUT]" << std::endl;
