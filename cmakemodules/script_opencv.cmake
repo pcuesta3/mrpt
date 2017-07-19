@@ -11,7 +11,7 @@ MARK_AS_ADVANCED(OpenCV_IGNORE_PKGCONFIG)
 # Use CMAKE module if opencv's not been detected yet:
 IF(NOT CMAKE_MRPT_HAS_OPENCV)
 	# 1st: Try to find OpenCV config file (NO_MODULE: Don't find a module, but OpenCVConfig.cmake):
-	FIND_PACKAGE(OpenCV  QUIET NO_MODULE)
+   FIND_PACKAGE(OpenCV  2.4 QUIET NO_MODULE)
 	IF(OpenCV_FOUND)
 		SET(MRPT_OPENCV_VERSION ${OpenCV_VERSION})
 		SET(OpenCV_LIBRARIES ${OpenCV_LIBS})
